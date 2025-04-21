@@ -1,7 +1,13 @@
 steps:
-  - name: 'gcr.io/cloud-builders/mvn'
-    args: ['clean', 'package']
+  - name: 'maven:3.9.0-eclipse-temurin-17'
+    entrypoint: 'mvn'
+    args: ['clean', 'package', '-DskipTests']
+
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/YOUR_PROJECT_ID/agent-service', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/moon-tracker/agent/agent-service', '.']
+
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/YOUR_PROJECT_ID/agent-service']
+    args: ['push', 'us-central1-docker.pkg.dev/moon-tracker/agent/agent-service']
+
+images:
+  - 'us-central1-docker.pkg.dev/moon-tracker/agent/agent-service'
