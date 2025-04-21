@@ -2,15 +2,23 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 steps:
-  - name: 'maven:3.9.0-eclipse-temurin-17'
-    entrypoint: 'mvn'
-    args: ['clean', 'package', '-DskipTests']
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'install', '-DskipTests']
+    dir: '.'
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/moon-tracker/agent/agent-service', '.']
+    args: [
+      'build',
+      '-t',
+      'us-central1-docker.pkg.dev/moon-tracker-456917/agent/agent-service:1.0.0',
+      '.'
+    ]
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/moon-tracker/agent/agent-service']
+    args: [
+      'push',
+      'us-central1-docker.pkg.dev/moon-tracker-456917/agent/agent-service:1.0.0'
+    ]
 
 images:
-  - 'us-central1-docker.pkg.dev/moon-tracker/agent/agent-service'
+  - 'us-central1-docker.pkg.dev/moon-tracker-456917/agent/agent-service:1.0.0'
